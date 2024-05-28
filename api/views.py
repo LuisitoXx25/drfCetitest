@@ -29,11 +29,14 @@ def realizar_prediccion(request):
         # Realizar la predicción utilizando el modelo
         resultado_prediccion = model.predict(respuestas_array)
 
-        # Convertir los resultados de la predicción a una lista para ser serializados
-        resultado_prediccion = resultado_prediccion.tolist()
+        # Redondear los resultados a 5 cifras decimales
+        resultado_prediccion = np.round(resultado_prediccion, decimals=5)
 
-        # Convertir el resultado a una cadena
-        resultado_prediccion_str = ','.join(map(str, resultado_prediccion[0]))
+        # Convertir los resultados de la predicción a una lista de cadenas truncadas a 5 caracteres
+        resultado_prediccion_str = [str(resultado)[:5] for resultado in resultado_prediccion[0]]
+
+        # Convertir el resultado truncado a una cadena
+        resultado_prediccion_str = ','.join(resultado_prediccion_str)
 
         # Guardar las respuestas y resultados en la base de datos
         prediccion = Prediccion.objects.create(
@@ -48,6 +51,7 @@ def realizar_prediccion(request):
         return Response({'error': 'La clave "data" es requerida en el cuerpo de la solicitud.'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class ProgrammerViewSet(viewsets.ModelViewSet):
     queryset = Programmer.objects.all()
