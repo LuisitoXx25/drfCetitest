@@ -8,7 +8,7 @@ class Programmer(models.Model):
     
 class Prediccion(models.Model):
     respuestas=models.CharField(max_length=500)
-    resultados=models.CharField(max_length=100)
+    resultados=models.CharField(max_length=300)
     
     def __str__(self):
         return f"Predicción {self.id}"
