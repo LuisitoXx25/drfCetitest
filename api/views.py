@@ -12,7 +12,7 @@ def load_model(model_path):
     return model
 
 # Cargar el modelo una vez al iniciar el servidor para evitar recargarlo en cada solicitud
-MODEL_PATH = 'api//cetired.keras'
+MODEL_PATH = 'api//CTred.keras'
 model = load_model(MODEL_PATH)
 
 @api_view(['POST'])
